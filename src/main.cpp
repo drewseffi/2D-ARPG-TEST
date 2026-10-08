@@ -5,6 +5,10 @@
 #include "systems/MovementSystem.h"
 #include "systems/RenderingSystem.h"
 
+#include "world/Map.h"
+#include "world/Tile.h"
+#include "world/MapGenerator.h"
+
 #include "rendering/CameraComponent.h"
 
 int main()
@@ -31,7 +35,12 @@ int main()
     MovementSystem movementSystem;
     RenderingSystem renderingSystem;
 
+    MapGenerator mapGenerator;
+
     CameraComponent camera;
+
+    // --- Generate map ---
+    Map map = mapGenerator.Generate(4, 4);
 
     while (!WindowShouldClose())
     {
@@ -44,7 +53,7 @@ int main()
 
         // --- Rendering ---
         camera.Follow(playerPosition);
-        renderingSystem.Update(world, camera);
+        renderingSystem.Update(world, camera, map);
     }
 
     CloseAudioDevice();
