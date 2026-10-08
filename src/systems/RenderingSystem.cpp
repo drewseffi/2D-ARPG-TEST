@@ -1,10 +1,12 @@
+#include "rendering/CameraComponent.h"
 #include "systems/RenderingSystem.h"
 #include "core/raylib.h"
 
-void RenderingSystem::Update(World& world)
+void RenderingSystem::Update(World& world, CameraComponent camera)
 {
     BeginDrawing();
     ClearBackground(BLUE);
+    BeginMode2D(camera.GetCamera());
 
     for (Entity ent : world.GetEntities())
     {
@@ -14,5 +16,6 @@ void RenderingSystem::Update(World& world)
         }
     }
 
+    EndMode2D();
     EndDrawing();
 }

@@ -5,6 +5,8 @@
 #include "systems/MovementSystem.h"
 #include "systems/RenderingSystem.h"
 
+#include "rendering/CameraComponent.h"
+
 int main()
 {
     const int screenWidth = 800;
@@ -29,6 +31,8 @@ int main()
     MovementSystem movementSystem;
     RenderingSystem renderingSystem;
 
+    CameraComponent camera;
+
     while (!WindowShouldClose())
     {
         float deltaTime = GetFrameTime();
@@ -36,9 +40,11 @@ int main()
         // --- Update game systems ---
         inputSystem.Update(world, player);
         movementSystem.Update(world, deltaTime);
+        Vector2 playerPosition = world.GetTransform(player).position;
 
         // --- Rendering ---
-        renderingSystem.Update(world);
+        camera.Follow(playerPosition);
+        renderingSystem.Update(world, camera);
     }
 
     CloseAudioDevice();
